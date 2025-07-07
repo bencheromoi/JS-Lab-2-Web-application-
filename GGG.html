@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Registration Form</title>
+</head>
+<body>
+
+  <h2>Registration Form</h2>
+
+  <form id="registrationForm">
+    <label>Username (letters only):</label><br>
+    <input type="text" id="username" required><br><br>
+
+    <label>Date of Birth:</label><br>
+    <input type="date" id="dob" required><br><br>
+
+    <label>Age (18+):</label><br>
+    <input type="number" id="age" required><br><br>
+
+    <label>Phone Number:</label><br>
+    <input type="tel" id="phone" required><br><br>
+
+    <label>Account Type:</label><br>
+    <select id="accountType" required>
+      <option value="">Select Account</option>
+      <option value="Student">Student</option>
+      <option value="Farmer">Farmer</option>
+    </select><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <label>Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" required><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const dob = document.getElementById('dob').value;
+      const age = parseInt(document.getElementById('age').value);
+      const phone = document.getElementById('phone').value.trim();
+      const accountType = document.getElementById('accountType').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Username: letters only
+      if (!/^[A-Za-z]+$/.test(username)) {
+        alert("Username must have letters only, no spaces.");
+        return;
+      }
+
+      // Age check
+      if (isNaN(age) || age < 18) {
+        alert("Age must be 18 or older.");
+        return;
+      }
+
+      // Phone number check: simple digits check (Kenyan format can be added if needed)
+      if (!/^\+?\d{10,13}$/.test(phone)) {
+        alert("Enter a valid phone number.");
+        return;
+      }
+
+      // Password strength check
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
+        alert("Password must include uppercase, lowercase, number, special character.");
+        return;
+      }
+
+      // Confirm password match
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      if (accountType === "") {
+        alert("Please select an account type.");
+        return;
+      }
+
+      alert(`You have successfully registered as a ${accountType}.`);
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
